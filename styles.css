@@ -36,21 +36,21 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
-    
 }
 
 body {
     font-family: var(--font-body);
+    /* FIX 1: Removed background-attachment: fixed — forces full repaint on every scroll tick */
     background: linear-gradient(160deg, #151325 0%, #1c1735 25%, #231e3e 50%, #1a1730 75%, #151325 100%);
-    background-attachment: fixed;
+    background-attachment: scroll; /* was: fixed */
     color: var(--text-primary);
     overflow-x: hidden;
     line-height: 1.6;
     min-height: 100vh;
     width: 100%;
-    
 }
 
+/* FIX 2: Promote fixed pseudo-elements to their own GPU layer */
 body::before {
     content: '';
     position: fixed;
@@ -65,6 +65,9 @@ body::before {
         radial-gradient(ellipse 30% 30% at 70% 80%, rgba(88, 55, 120, 0.06), transparent);
     pointer-events: none;
     z-index: 0;
+    /* GPU layer promotion */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 body::after {
@@ -83,15 +86,17 @@ body::after {
     animation: gridMove 30s linear infinite;
     mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.4), transparent);
     -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.4), transparent);
+    /* GPU layer promotion — keeps grid animation off main scroll thread */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 @keyframes gridMove {
     0% {
-        transform: translate(0, 0);
+        transform: translate(0, 0) translateZ(0);
     }
-
     100% {
-        transform: translate(80px, 80px);
+        transform: translate(80px, 80px) translateZ(0);
     }
 }
 
@@ -150,13 +155,10 @@ body::after {
 }
 
 @keyframes loaderPulse {
-
-    0%,
-    100% {
+    0%, 100% {
         transform: scale(1);
         opacity: 1;
     }
-
     50% {
         transform: scale(1.05);
         opacity: 0.8;
@@ -164,17 +166,9 @@ body::after {
 }
 
 @keyframes loaderProgress {
-    0% {
-        width: 0%;
-    }
-
-    40% {
-        width: 70%;
-    }
-
-    100% {
-        width: 100%;
-    }
+    0% { width: 0%; }
+    40% { width: 70%; }
+    100% { width: 100%; }
 }
 
 a {
@@ -228,6 +222,9 @@ img {
     z-index: 1000;
     padding: 20px 0;
     transition: var(--transition);
+    /* FIX 3: Promote navbar to its own layer so scroll doesn't cause repaints */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .navbar.scrolled {
@@ -263,21 +260,13 @@ img {
 
 .footer-brand .nav-logo {
     width: auto;
-    
     display: inline-block;
     margin-bottom: 8px;
 }
 
 @keyframes shimmerText {
-
-    0%,
-    100% {
-        background-position: 0% center;
-    }
-
-    50% {
-        background-position: 300% center;
-    }
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 300% center; }
 }
 
 .nav-links {
@@ -394,6 +383,7 @@ img {
     border-radius: 50%;
     animation: heroGlow 6s ease-in-out infinite;
     pointer-events: none;
+    will-change: transform, opacity;
 }
 
 .hero::after {
@@ -408,16 +398,14 @@ img {
     border-radius: 50%;
     animation: heroRing 8s linear infinite;
     pointer-events: none;
+    will-change: transform, opacity;
 }
 
 @keyframes heroGlow {
-
-    0%,
-    100% {
+    0%, 100% {
         transform: translate(-50%, -50%) scale(1) rotate(0deg);
         opacity: 0.6;
     }
-
     50% {
         transform: translate(-50%, -50%) scale(1.15) rotate(180deg);
         opacity: 1;
@@ -429,12 +417,10 @@ img {
         transform: translate(-50%, -50%) rotate(0deg) scale(1);
         opacity: 0.3;
     }
-
     50% {
         transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
         opacity: 0.6;
     }
-
     100% {
         transform: translate(-50%, -50%) rotate(360deg) scale(1);
         opacity: 0.3;
@@ -467,15 +453,8 @@ img {
 }
 
 @keyframes badgePulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.15);
-    }
-
-    50% {
-        box-shadow: 0 0 0 12px rgba(201, 168, 76, 0);
-    }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.15); }
+    50% { box-shadow: 0 0 0 12px rgba(201, 168, 76, 0); }
 }
 
 .hero-badge span {
@@ -488,17 +467,8 @@ img {
 }
 
 @keyframes pulse-dot {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 0.4;
-        transform: scale(1.8);
-    }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.8); }
 }
 
 .hero h1 {
@@ -538,15 +508,8 @@ img {
 }
 
 @keyframes shimmerGold {
-
-    0%,
-    100% {
-        background-position: 0% center;
-    }
-
-    50% {
-        background-position: 400% center;
-    }
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 400% center; }
 }
 
 .hero-subtitle {
@@ -678,15 +641,8 @@ img {
 }
 
 @keyframes blink {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.2;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
 }
 
 .hero-buttons {
@@ -1034,7 +990,6 @@ img {
     position: relative;
     height: 440px;
     perspective: 1500px;
-    
     overflow: visible;
 }
 
@@ -1057,6 +1012,7 @@ img {
     pointer-events: none;
     z-index: 0;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    will-change: transform, opacity;
 }
 
 .carousel-3d-card.active {
@@ -1070,7 +1026,6 @@ img {
 
 .carousel-3d-card.prev-1 {
     transform: translate(calc(-50% - 260px), -50%) scale(0.9) rotateY(5deg);
-    
     opacity: 0.6;
     z-index: 5;
     pointer-events: auto;
@@ -1086,7 +1041,6 @@ img {
 
 .carousel-3d-card.next-1 {
     transform: translate(calc(-50% + 260px), -50%) scale(0.9) rotateY(-5deg);
-    
     opacity: 0.6;
     z-index: 5;
     pointer-events: auto;
@@ -1099,8 +1053,6 @@ img {
     z-index: 1;
     filter: brightness(0.4);
 }
-
-
 
 
 .payment-section {
@@ -1149,16 +1101,8 @@ img {
     display: block;
 }
 
-.qr-instruction {
-    color: #333;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-top: 8px;
-}
-
 #payBtn {
     display: none;
-    
     margin: 16px auto 0;
     max-width: 250px;
     justify-content: center;
@@ -1190,8 +1134,6 @@ img {
         height: 340px;
     }
 
-    
-
     .carousel-3d-stage {
         height: 380px;
     }
@@ -1210,31 +1152,25 @@ img {
     .carousel-3d-card.next-2 {
         opacity: 0;
     }
+
     .about-description {
         margin-right: 10px;
     }
 }
 
 
-
-
 .events-page-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    
     gap: 32px;
     padding-bottom: 100px;
 }
 
 .event-full-card {
     height: 100%;
-    
     display: flex;
     flex-direction: column;
-    
 }
-
-
 
 .event-card-content {
     padding: 28px 24px 24px;
@@ -1242,12 +1178,10 @@ img {
     flex-direction: column;
     flex: 1;
     height: 100%;
-    
 }
 
 .event-meta {
     margin-top: auto;
-    
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -1346,11 +1280,11 @@ img {
     letter-spacing: 0.5px;
 }
 
-.contact-info>p {
+.contact-info > p {
     color: var(--text-secondary);
     margin-bottom: 32px;
     line-height: 1.8;
-margin-right: 10px;
+    margin-right: 10px;
 }
 
 .contact-details {
@@ -1841,9 +1775,7 @@ margin-right: 10px;
     -webkit-box-orient: vertical;
     overflow: hidden;
     min-height: 8.7em;
-    
 }
-
 
 .event-meta {
     margin-top: auto;
@@ -1853,7 +1785,6 @@ margin-right: 10px;
     padding-top: 20px;
     margin-bottom: 24px;
     border-top: 1px solid rgba(201, 168, 76, 0.15);
-    
 }
 
 .event-meta-item {
@@ -2338,20 +2269,16 @@ margin-right: 10px;
         grid-template-columns: 1fr;
     }
 
-
     .nav-logo {
         width: 60px;
-        
     }
 
     .nav-brand {
         gap: 10px !important;
-        
     }
 
     .nav-brand img[alt="Header 5"] {
         height: 35px !important;
-        
     }
 
     .about-collab-logo {
@@ -2363,7 +2290,6 @@ margin-right: 10px;
         height: 82px;
     }
 
-    
     .footer-brand {
         display: flex;
         flex-direction: column;
@@ -2375,7 +2301,6 @@ margin-right: 10px;
         margin-bottom: 12px;
     }
 
-    
     .register-card {
         padding: 24px 16px;
     }
@@ -2389,7 +2314,6 @@ margin-right: 10px;
         height: 140px;
     }
 
-    
     #payBtn {
         width: 100%;
         max-width: none;
@@ -2398,10 +2322,8 @@ margin-right: 10px;
         margin-bottom: 12px;
     }
 
-    
     #qrCodeContainer {
         display: none;
-        
     }
 
     #qrCodeContainer.visible {
@@ -2416,17 +2338,14 @@ margin-right: 10px;
         margin-bottom: 16px;
     }
 
-    
     .loader-wrapper {
         inset: 0;
-        
     }
 
     .loader-logo {
         width: 100px;
     }
 
-    
     .hero h1 {
         font-size: 2.5rem;
         letter-spacing: 1px;
@@ -2528,5 +2447,3 @@ margin-right: 10px;
     width: 100%;
     justify-content: center;
 }
-
-

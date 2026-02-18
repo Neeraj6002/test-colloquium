@@ -39,13 +39,14 @@ function initNavbar() {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
 
+  // FIX: Use passive listener for scroll — allows browser to scroll without waiting for JS
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
-  });
+  }, { passive: true });
 
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
@@ -109,6 +110,7 @@ function initActiveNav() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
 
+  // FIX: passive listener so browser doesn't block scroll waiting for this handler
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(section => {
@@ -124,7 +126,7 @@ function initActiveNav() {
         link.classList.add('active');
       }
     });
-  });
+  }, { passive: true });
 }
 
 /* ─── REGISTER PAGE: PRE-SELECT EVENT ─── */
@@ -256,14 +258,26 @@ function initParticles() {
 
   let mouseX = canvas.width / 2;
   let mouseY = canvas.height / 2;
+  let rafId = null;
+  let isVisible = true;
 
+  // FIX: Use passive mouse tracking — doesn't affect scrolling
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
+  }, { passive: true });
+
+  // FIX: Pause animation when tab is hidden — major battery + perf win
+  document.addEventListener('visibilitychange', () => {
+    isVisible = !document.hidden;
+    if (isVisible && !rafId) {
+      rafId = requestAnimationFrame(animate);
+    }
   });
 
+  // FIX: Reduced from 80 → 50 particles. O(n²) connection check = 50*49/2 = 1225 vs 3160 pairs
   const particles = [];
-  const count = 80;
+  const count = 50;
 
   for (let i = 0; i < count; i++) {
     particles.push({
@@ -280,7 +294,16 @@ function initParticles() {
     });
   }
 
+  // FIX: Pre-baked connection distance squared to avoid sqrt in the hot loop
+  const CONNECTION_DIST = 140;
+  const CONNECTION_DIST_SQ = CONNECTION_DIST * CONNECTION_DIST;
+
   function animate() {
+    if (!isVisible) {
+      rafId = null;
+      return;
+    }
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     particles.forEach(p => {
@@ -315,31 +338,39 @@ function initParticles() {
       ctx.shadowBlur = 0;
     });
 
-    particles.forEach((a, i) => {
-      particles.slice(i + 1).forEach(b => {
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 140) {
+    // FIX: Use distanceSq check (no sqrt) for the O(n²) connection loop — much faster
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distSq = dx * dx + dy * dy;
+
+        if (distSq < CONNECTION_DIST_SQ) {
+          const dist = Math.sqrt(distSq); // Only compute sqrt when we know we need it
           ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(201, 168, 76, ${0.06 * (1 - dist / 140)})`;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(201, 168, 76, ${0.06 * (1 - dist / CONNECTION_DIST)})`;
           ctx.lineWidth = 0.6;
           ctx.stroke();
         }
-      });
-    });
+      }
+    }
 
-    requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
   }
 
-  animate();
+  rafId = requestAnimationFrame(animate);
 
+  // FIX: Debounce resize handler so it doesn't fire on every pixel during resize drag
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }, 150);
+  }, { passive: true });
 }
 
 /* ─── 3D CAROUSEL ─── */
@@ -378,13 +409,8 @@ function initCarousel() {
     resetAutoPlay();
   }
 
-  function next() {
-    goTo(currentIndex + 1);
-  }
-
-  function prev() {
-    goTo(currentIndex - 1);
-  }
+  function next() { goTo(currentIndex + 1); }
+  function prev() { goTo(currentIndex - 1); }
 
   if (prevBtn) prevBtn.addEventListener('click', prev);
   if (nextBtn) nextBtn.addEventListener('click', next);
@@ -427,7 +453,7 @@ function initLoader() {
   window.addEventListener('load', () => {
     setTimeout(() => {
       loader.classList.add('hidden');
-    }, 1000); // Minimum 1.5s display time for branding
+    }, 1000);
   });
 }
 
@@ -454,31 +480,23 @@ function initPaymentSystem() {
       paymentSection.classList.remove('hidden');
       payAmountSpan.textContent = price;
 
-      // Make transaction ID required when payment section is visible
       if (transactionIdInput) transactionIdInput.setAttribute('required', 'true');
 
-      // Create UPI Note: EventName_PersonName
-      // Replace spaces with underscores for cleaner UPI format
       const safeEventName = eventName.replace(/\s+/g, '_');
       const safeName = name.replace(/\s+/g, '_');
       const note = `${safeEventName}_${safeName}`;
       txnNoteSpan.textContent = note;
 
-      // Construct UPI URL
-      // pa=VPA, pn=PayeeName, am=Amount, tn=Note, cu=Currency
       const vpa = 'thahir05ae-2@okaxis';
       const payee = 'Colloquium 2026';
       const upiUrl = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(payee)}&am=${price}&tn=${encodeURIComponent(note)}&cu=INR`;
 
-      // Update Button Link
       payBtn.href = upiUrl;
 
-      // Generate QR Code
       const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
       qrCodeImg.src = qrApi;
     } else {
       paymentSection.classList.add('hidden');
-      // Remove required attribute when hidden
       if (transactionIdInput) transactionIdInput.removeAttribute('required');
     }
   }
@@ -486,11 +504,8 @@ function initPaymentSystem() {
   eventSelect.addEventListener('change', updatePayment);
   nameInput.addEventListener('input', updatePayment);
 
-  // Initial check (in case of pre-selection or refresh)
-  // Slight delay to ensure pre-select logic runs first
   setTimeout(updatePayment, 100);
 
-  // Reset form handler
   const regForm = document.getElementById('registerForm');
   if (regForm) {
     regForm.addEventListener('reset', () => {
@@ -504,14 +519,12 @@ function initPaymentSystem() {
     });
   }
 
-  // Transaction ID Validation (12 digits only)
   if (transactionIdInput) {
     transactionIdInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 12);
     });
   }
 
-  // Mobile QR Toggle Logic
   const showQrBtn = document.getElementById('showQrBtn');
   const qrContainer = document.getElementById('qrCodeContainer');
 
@@ -522,7 +535,6 @@ function initPaymentSystem() {
 
       if (isVisible) {
         showQrBtn.innerHTML = 'Hide QR Code <i class="fas fa-eye-slash"></i>';
-        // Scroll to QR
         qrContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } else {
         showQrBtn.innerHTML = 'Show QR Code <i class="fas fa-qrcode"></i>';
@@ -545,5 +557,3 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousel();
   initPaymentSystem();
 });
-
-
