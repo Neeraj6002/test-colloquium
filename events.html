@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Explore all events at Colloquium 2026 — coding competitions, tech quizzes, design challenges, and more. Register now!">
+    <title>Events | Colloquium 2026</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="assects/Frame 48095814.png" type="image/png">
+    
+</head>
+
+<body>
+    <!-- ─── LOADER ─── -->
+    <div id="loader" class="loader-wrapper">
+        <div class="loader-content">
+            <img src="assects/Frame 48095814.png" alt="Colloquium Loader" class="loader-logo">
+            <div class="loader-progress-bar">
+                <div class="loader-progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── NAVBAR ─── -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand" style="display: flex; align-items: center; gap: 15px;">
+                <a href="index.html" class="nav-logo"><img src="assects/Frame 48095814.png" alt="Colloquium Logo"></a>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="index.html" class="nav-cta">Home</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ─── PARTICLE CANVAS ─── -->
+    <canvas id="particleCanvas"
+        style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+    <!-- ─── PAGE HEADER ─── -->
+    <div class="page-header">
+        <div class="container">
+            <span class="section-tag">March 6, 2026</span>
+            <h1>All <span class="highlight">Events</span></h1>
+            <p>Explore our lineup of exciting competitions. Find your arena and register today.</p>
+        </div>
+    </div>
+
+    <!-- ─── EVENTS GRID ─── -->
+    <section class="section" style="padding-top:0;">
+        <div class="container">
+            <div class="events-page-grid">
+
+                <!-- 1 ── IEEE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Offenso Cyber Security Workshop (IEEE)</h3>
+                        </div>
+                        <p class="event-desc">Practical ethical hacking. Master offensive tactics from pentesting to social engineering to understand how hackers think and build unbreakable defenses.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> IEEE: Rs 100 | Non-IEEE: Rs 200 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Nil</div>
+                        </div>
+                        <a href="register.html?event=Offenso%20Cyber%20Security%20Workshop" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 2 ── ISTE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Intra MGI MUN Conference (ISTE)</h3>
+                        </div>
+                        <p class="event-desc">Committees, agendas and country allocations will be communicated in advance. Participants must follow standard MUN parliamentary procedures. Judges decisions are final and binding.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 100 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 1500</div>
+                        </div>
+                        <a href="register.html?event=Intra%20MGI%20MUN%20Conference" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 3 ── IEEE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>PCB Design &amp; Building Workshop (IEEE)</h3>
+                        </div>
+                        <p class="event-desc">Hardware reality. Convert electrical schematics into physical circuit boards using EDA tools, and finish by soldering your custom device.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> IEEE: Rs 100 | Non-IEEE: Rs 200 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Nil</div>
+                        </div>
+                        <a href="register.html?event=PCB%20Design%20%26%20Building%20Workshop" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 4 ── IEDC -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Problem Hunt (IEDC)</h3>
+                        </div>
+                        <p class="event-desc">Problem-solving challenge under IEDC with focus on identifying practical problems and presenting solution directions.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 200 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 2000</div>
+                        </div>
+                        <a href="register.html?event=Problem%20Hunt" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 5 ── IEEE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Startup Pitching Competition (IEEE)</h3>
+                        </div>
+                        <p class="event-desc">The ultimate Elevator Pitch. Present your business model to investors and experts to win capital, mentorship, and market validation.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> IEEE: Rs 100 | Non-IEEE: Rs 200 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 2000 per head</div>
+                        </div>
+                        <a href="register.html?event=Startup%20Pitching%20Competition" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 6 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Robowar </h3>
+                        </div>
+                        <p class="event-desc">A car robot is placed in a preset track and must make a war. Winning persons or team will be rewarded.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 2000</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 100000, Rs 60000, Rs 40000</div>
+                        </div>
+                        <a href="register.html?event=Robowar" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 7 ── IEEE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Agentic AI Talk Session (IEEE)</h3>
+                        </div>
+                        <p class="event-desc">The shift from chatting to doing. Learn to build autonomous agents that can plan, use tools, and execute complex workflows without constant prompting.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> IEEE: Rs 100 | Non-IEEE: Rs 200 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Nil</div>
+                        </div>
+                        <a href="register.html?event=Agentic%20AI%20Talk%20Session" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 8 ── ISTE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Program Debugging (ISTE)</h3>
+                        </div>
+                        <p class="event-desc">Participants will be given faulty programs to debug. Programming languages will be announced prior to the event.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 80 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 500 and Rs 500</div>
+                        </div>
+                        <a href="register.html?event=Program%20Debugging" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 9 ── IEEE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Web Design Workshop (IEEE)</h3>
+                        </div>
+                        <p class="event-desc">Build stylish, responsive websites from scratch. Bridge creative UI/UX and technical code (HTML/CSS) to turn a blank canvas into a live site.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> IEEE: Rs 100 | Non-IEEE: Rs 200 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Nil</div>
+                        </div>
+                        <a href="register.html?event=Web%20Design%20Workshop" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 10 ── IEDC -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>UI/UX Workshop (IEDC)</h3>
+                        </div>
+                        <p class="event-desc">Hands-on workshop focused on user-centric interfaces and practical product design workflow.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 200 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Nil</div>
+                        </div>
+                        <a href="register.html?event=UI%2FUX%20Workshop" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 11 ── IEEE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Figma UI/UX Session by Friends of Figma (IEEE)</h3>
+                        </div>
+                        <p class="event-desc">A community-driven deep dive into Figma. Learn smart components, high-fidelity prototypes, and professional hand-offs in a collaborative workflow.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> IEEE: Rs 100 | Non-IEEE: Rs 200 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Nil</div>
+                        </div>
+                        <a href="register.html?event=Figma%20UI%2FUX%20Session%20by%20Friends%20of%20Figma" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 12 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>ACME </h3>
+                        </div>
+                        <p class="event-desc">Final year paper presentation of students in every department.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 200 per team</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 3000 (each dept), Rs 2000 (1st), Rs 1000 (2nd)</div>
+                        </div>
+                        <a href="register.html?event=ACME" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 13 ── IEEE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Valorant Tournament (Collab with Heaven Esports) (IEEE)</h3>
+                        </div>
+                        <p class="event-desc">A high-stakes, pro-format competition. Squad up to test your skills.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> IEEE Members: Rs 150 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 2000 per team</div>
+                        </div>
+                        <a href="register.html?event=Valorant%20Tournament%20(Collab%20with%20Heaven%20Esports)" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 14 ── ISTE -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Circuit Designing (ISTE)</h3>
+                        </div>
+                        <p class="event-desc">Circuit design problem statement will be provided on the spot. Participants may be asked to design using diagrams, software, or components.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 100 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 500 and Rs 500</div>
+                        </div>
+                        <a href="register.html?event=Circuit%20Designing" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 15 ── IEDC -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Idea To Startup Sprint (IEDC)</h3>
+                        </div>
+                        <p class="event-desc">Convert ideas into startup-ready directions through rapid validation and structured sprint thinking.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 200 per head</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 3000</div>
+                        </div>
+                        <a href="register.html?event=Idea%20To%20Startup%20Sprint" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 16 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Bridge Modelling </h3>
+                        </div>
+                        <p class="event-desc">Using 150-200 popsicle sticks, construct a bridge with maximum load before breaking. The bridges will be weighed before testing.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 250 per team</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 3000, Rs 2000, Rs 1000</div>
+                        </div>
+                        <a href="register.html?event=Bridge%20Modelling" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 17 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>AutoCAD Competition </h3>
+                        </div>
+                        <p class="event-desc">PDF drawing will be given at the time of competition. Points are for drafting, detailing, labelling and colouring.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 100</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 2500, Rs 1500, Rs 1000</div>
+                        </div>
+                        <a href="register.html?event=AutoCAD%20Competition" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 18 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Debate </h3>
+                        </div>
+                        <p class="event-desc">Competitive debate event.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 100</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 1500, Rs 1000, Rs 500</div>
+                        </div>
+                        <a href="register.html?event=Debate" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 19 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Prompt Writing Competition </h3>
+                        </div>
+                        <p class="event-desc">Participants will be given a problem statement or theme. Prompts must be written within the allotted time.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 100</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 1500, Rs 1000, Rs 500</div>
+                        </div>
+                        <a href="register.html?event=Prompt%20Writing%20Competition" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 20 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Automotive Business Conclave </h3>
+                        </div>
+                        <p class="event-desc">A panel discussion with selected experts from different fields and an interactive session between panel members and students.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 200</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 10000, Rs 7000, Rs 3000</div>
+                        </div>
+                        <a href="register.html?event=Automotive%20Business%20Conclave" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 21 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Reverse Marketing (Pitching) </h3>
+                        </div>
+                        <p class="event-desc">Basically a pitching competition: pitch something useless or unwanted in daily life.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: Rs 250</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: Rs 3000, Rs 2000, Rs 1000</div>
+                        </div>
+                        <a href="register.html?event=Reverse%20Marketing%20(Pitching)" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 22 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Zero Gravity </h3>
+                        </div>
+                        <p class="event-desc">Description will be announced.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: To be announced</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: To be announced</div>
+                        </div>
+                        <a href="register.html" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+                <!-- 23 ── OPEN -->
+                <div class="event-full-card fade-up">
+                    <div class="event-card-image"
+                        style="background:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg') center/cover no-repeat;">
+                    </div>
+                    <div class="event-card-content">
+                        <div class="event-title-row">
+                            <h3>Auto Show </h3>
+                        </div>
+                        <p class="event-desc">Description will be announced.</p>
+                        <div class="event-meta">
+                            <div class="event-meta-item"><i class="fas fa-ticket-alt"></i> Registration: To be announced</div>
+                            <div class="event-meta-item"><i class="fas fa-trophy"></i> Prize: To be announced</div>
+                        </div>
+                        <a href="register.html" class="btn-register">Register Now</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">COLLOQUIUM</a>
+                    <p>A premier technical symposium bringing together innovation, competition, and collaboration. March 6, 2026.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                        <img src="assects/header 2.png" alt="Partner Logo"
+                            style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
+                        <img src="assects/header 3.png" alt="Partner Logo"
+                            style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
+                        <img src="assects/header 4.png" alt="Partner Logo"
+                            style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="events.html">Events</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Events</h4>
+                    <a href="register.html?event=Robowar">Robowar</a>
+                    <a href="register.html?event=ACME">ACME</a>
+                    <a href="register.html?event=Bridge%20Modelling">Bridge Modelling</a>
+                    <a href="register.html?event=Offenso%20Cyber%20Security%20Workshop">Offenso Cyber Security</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Refund Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Colloquium. All rights reserved.</p>
+                <p>Designed with <i class="fas fa-heart" style="color:var(--accent-orange);"></i> by IEEE SB MCET</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

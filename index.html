@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Colloquium 2026 — A premier college technical symposium featuring coding competitions, tech quizzes, and design challenges. March 6, 2026.">
+    <title>Colloquium 2026 | College Technical Symposium</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="assects/Frame 48095814.png" type="image/png">
+</head>
+
+<body>
+    <!-- ─── LOADER ─── -->
+    <div id="loader" class="loader-wrapper">
+        <div class="loader-content">
+            <img src="assects/Frame 48095814.png" alt="Colloquium Loader" class="loader-logo">
+            <div class="loader-progress-bar">
+                <div class="loader-progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── NAVBAR ─── -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand" style="display: flex; align-items: center; gap: 15px;">
+                <a href="index.html" class="nav-logo"><img src="assects/Frame 48095814.png" alt="Colloquium Logo"></a>
+                <img src="assects/header 2.png" alt="Colloquium Text Logo" style="height: 40px; width: auto;">
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="events.html" class="nav-cta">Register</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ─── PARTICLE CANVAS ─── -->
+    <canvas id="particleCanvas"
+        style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+    <!-- ─── HERO ─── -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span></span> March 6, 2026
+            </div>
+            <h1>COLLOQUIUM<br><span class="highlight hero-year">2<span class="hero-year-k">K</span>26</span></h1>
+            <p class="hero-subtitle">
+                Mohandas Group of Institutions - Trivandrum, COLLOQUIUM '26, The Techno-Cultural Fest on March 6th and
+                7th, 2026
+            </p>
+            <div class="countdown-wrapper">
+                <p class="countdown-label">Event starts in</p>
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item">
+                        <div class="number" id="days">00</div>
+                        <div class="unit">Days</div>
+                    </div>
+                    <span class="countdown-separator">:</span>
+                    <div class="countdown-item">
+                        <div class="number" id="hours">00</div>
+                        <div class="unit">Hours</div>
+                    </div>
+                    <span class="countdown-separator">:</span>
+                    <div class="countdown-item">
+                        <div class="number" id="minutes">00</div>
+                        <div class="unit">Minutes</div>
+                    </div>
+                    <span class="countdown-separator">:</span>
+                    <div class="countdown-item">
+                        <div class="number" id="seconds">00</div>
+                        <div class="unit">Seconds</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-buttons">
+                <a href="events.html" class="btn-primary">
+                    View Events <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="#about" class="btn-secondary">
+                    Learn More <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── ABOUT ─── -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="about-layout fade-up">
+                <div class="about-left">
+                    <h2 class="about-heading">About <span class="highlight">Colloquium</span></h2>
+                    <div class="ornament"><span>✦</span></div>
+                    <p class="about-description">
+                        Colloquium is MCET's premier technical fest that brings together innovation, learning and
+                        competitive spirit under one platform. It is a celebration of technology, creativity and
+                        young engineering minds shaping the future. Experience an atmosphere filled with ideas,
+                        challenges and breakthrough moments.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">Events</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Participants</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">₹50K+</div>
+                            <div class="stat-label">Prize Pool</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-right">
+                    <div class="about-feature-card">
+                        <div class="about-feature-icon">⚡</div>
+                        <h3>Tradition of Excellence</h3>
+                        <p>Colloquium is the flagship technical event of Mohandas College of Engineering and Technology,
+                            Trivandrum. It serves as a platform where students demonstrate their technical expertise,
+                            explore new-age technologies and engage in thought-provoking competitions that foster
+                            innovation and problem-solving.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-collab fade-up">
+                <div class="about-collab-card">
+                    <a class="about-collab-logo" href="https://illuminatimcet.com/" target="_blank"
+                        rel="noopener noreferrer" aria-label="Visit Illuminati MCET website">
+                        <img src="assects/header 6.png" alt="Illuminati MCET Logo">
+                    </a>
+                    <div class="about-collab-content">
+                        <p class="about-collab-label">In Association With</p>
+                        <h3>Illuminati 2K26</h3>
+                        <p class="about-collab-text">Illuminati is MCET's techno-cultural celebration happening alongside
+                            Colloquium, with flagship shows, cultural experiences, and campus-wide energy.</p>
+                        <a class="about-collab-btn" href="https://illuminatimcet.com/" target="_blank"
+                            rel="noopener noreferrer">Know More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── 3D EVENT CARDS ─── -->
+    <section class="section events-preview" id="events">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="section-tag">Featured Events</span>
+                <h2 class="section-title">What Awaits You</h2>
+                <p class="section-subtitle">
+                    Explore our flagship events. Swipe or click arrows to browse.
+                </p>
+            </div>
+            <div class="carousel-3d fade-up">
+                <button class="carousel-3d-arrow carousel-3d-prev" aria-label="Previous"><i
+                        class="fas fa-chevron-left"></i></button>
+                <div class="carousel-3d-stage" id="carousel3dStage">
+                    <a href="events.html" class="carousel-3d-card" data-index="0">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">01</span>
+                        <span class="card-3d-title">Offenso Cyber Security</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="1">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">02</span>
+                        <span class="card-3d-title">Zero Gravity</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="2">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">03</span>
+                        <span class="card-3d-title">PCB Design Workshop</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="3">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">04</span>
+                        <span class="card-3d-title">Auto Show</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="4">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">05</span>
+                        <span class="card-3d-title">Startup Pitching</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="5">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">06</span>
+                        <span class="card-3d-title">Intra MGI MUN</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="6">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">07</span>
+                        <span class="card-3d-title">Agentic AI Talk</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="7">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">08</span>
+                        <span class="card-3d-title">Program Debugging</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="8">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">09</span>
+                        <span class="card-3d-title">Web Design Workshop</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="9">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">10</span>
+                        <span class="card-3d-title">Circuit Designing</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="10">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">11</span>
+                        <span class="card-3d-title">Figma UI/UX</span>
+                    </a>
+                    <a href="events.html" class="carousel-3d-card" data-index="11">
+                        <div class="card-3d-img"
+                            style="background-image:url('https://illuminatimcet.com/wp-content/uploads/2026/02/photo_6084629960535510166_y-600x600.jpg');">
+                        </div>
+                        <span class="card-3d-number">12</span>
+                        <span class="card-3d-title">Problem Hunt</span>
+                    </a>
+                </div>
+                <button class="carousel-3d-arrow carousel-3d-next" aria-label="Next"><i
+                        class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── CONTACT ─── -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="section-tag">Get in Touch</span>
+                <h2 class="section-title">Contact Us</h2>
+                <p class="section-subtitle">
+                    Have questions about the event? Reach out to our team and we'll get back to you.
+                </p>
+            </div>
+            <div class="contact-grid fade-up">
+                <div class="contact-info">
+                    <h3>Let's Connect</h3>
+                    <p>Whether you have questions about registration, events, or partnerships — we'd love to hear from
+                        you.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="text">
+                                <span>Address</span>
+                                <p>Mohandas College of Engineering and Technology, Anad, Thiruvananthapuram, Kerala,
+                                    India 695544</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="icon-box"><i class="fa fa-user"></i></div>
+                            <div class="text">
+                                <span>Chairperson - ANANYA SS</span>
+                                <p>Ph: 9400086191</p>
+                                <p>Mail id: ananyasreedevisajeev@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="icon-box"><i class="fa fa-user"></i></div>
+                            <div class="text">
+                                <span>Vice Chairman - AMAL RAJEEV</span>
+                                <p>Ph: 8590678804</p>
+                                <p>Mail id: amalrajeevnandhu13@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/illuminati_2k26/" aria-label="Instagram"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="https://in.linkedin.com/school/officialmcetonline/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://mcet.ac.in/" aria-label="Website"><i class="fas fa-globe"></i></a>
+                        <a href="https://www.facebook.com/MohandasCollege/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a> 
+                    </div>
+                </div>
+                <div class="contact-form-card">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="contactName">Your Name</label>
+                            <input type="text" id="contactName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">Email Address</label>
+                            <input type="email" id="contactEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage">Message</label>
+                            <textarea id="contactMessage" placeholder="Write your message here..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">
+                            Send Message <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">COLLOQUIUM</a>
+                    <p>A premier technical symposium bringing together innovation, competition, and collaboration. March
+                        6, 2026.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                        <img src="assects/header 2.png" alt="Partner Logo"
+                            style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
+                        <img src="assects/header 3.png" alt="Partner Logo"
+                            style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
+                        <img src="assects/header 4.png" alt="Partner Logo"
+                            style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="events.html">Events</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Events</h4>
+                    <a href="register.html?event=Robowar%20%28Non-IEEE%29">Robowar</a>
+                    <a href="register.html?event=ACME%20%28Non-IEEE%29">ACME</a>
+                    <a href="register.html?event=Bridge%20Modelling%20%28Non-IEEE%29">Bridge Modelling</a>
+                    <a href="register.html?event=Offenso%20Cyber%20Security%20Workshop%20%28IEEE%29">Offenso Cyber Security</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Refund Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Colloquium. All rights reserved.</p>
+                <p>Designed with <i class="fas fa-heart" style="color:var(--accent-orange);"></i> by IEEE SB MCET
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+
