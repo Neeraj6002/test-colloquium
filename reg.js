@@ -6,8 +6,57 @@
 import { db, collection, addDoc, serverTimestamp } from './firebase-config.js';
 
 // ─── CONSTANTS ───────────────────────────────────────────────
-const UPI_ID        = "9207796593@paytm"; // ← Replace with your actual UPI ID
 const MERCHANT_NAME = "Colloquium 2026";
+
+// UPI ID mapping per event (exact match on option value)
+// Events marked PLACEHOLDER — replace with real UPI once received
+const UPI_MAP = {
+    // ── ISTE Events (confirmed) ──
+    'Program Debugging': 'suryadathur2005thoolika@okicici',
+    'Intra MGI MUN Conference': 'suryadathur2005thoolika@okicici',
+    'Circuit Designing': 'arya210605@oksbi',
+
+    // ── IEEE Events ──
+    // 'Offenso Cyber Security Workshop':               'thahir05ae-2@okaxis',
+    // 'PCB Design & Building Workshop':                'thahir05ae-2@okaxis',
+    // 'Startup Pitching Competition':                  'thahir05ae-2@okaxis',
+    // 'Agentic AI Talk Session':                       'thahir05ae-2@okaxis',
+    // 'Web Design Workshop':                           'thahir05ae-2@okaxis',
+    // 'Figma UI/UX Session by Friends of Figma':       'thahir05ae-2@okaxis',
+    // 'Valorant Tournament (Collab with Heaven Esports)': 'thahir05ae-2@okaxis',
+
+    // ── IEDC Events ──
+    // 'Problem Hunt':              'thahir05ae-2@okaxis',
+    // 'UI/UX Workshop':            'thahir05ae-2@okaxis',
+    // 'Idea To Startup Sprint':    'thahir05ae-2@okaxis',
+
+    // ── Open Events ──
+    // 'Robowar':                       'thahir05ae-2@okaxis',
+    // 'ACME':                          'thahir05ae-2@okaxis',
+    // 'Bridge Modelling':              'thahir05ae-2@okaxis',
+    // 'AutoCAD Competition':           'thahir05ae-2@okaxis',
+    // 'Debate':                        'thahir05ae-2@okaxis',
+    // 'Prompt Writing Competition':    'thahir05ae-2@okaxis',
+    // 'Automotive Business Conclave':  'thahir05ae-2@okaxis',
+    // 'Reverse Marketing (Pitching)':  'thahir05ae-2@okaxis',
+};
+
+// Category-level fallbacks (used when event has no specific UPI above)
+const UPI_CATEGORY_MAP = {
+    'IEEE': 'ssvignesh2005-1@okicici',
+    'ISTE': 'suryadathur2005thoolika@okicici',
+    'IEDC': '7558009711-2@ibl',
+    'OPEN': 'thahir05ae-2@okaxis',
+};
+
+// Default fallback if nothing matches
+const UPI_DEFAULT = 'thahir05ae-2@okaxis';
+
+function getUpiForEvent(eventValue, category) {
+    if (UPI_MAP[eventValue]) return UPI_MAP[eventValue];
+    if (category && UPI_CATEGORY_MAP[category]) return UPI_CATEGORY_MAP[category];
+    return UPI_DEFAULT;
+}
 
 let submitted = false; // Prevent duplicate submissions
 
@@ -57,7 +106,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // This is the primary mechanism used by events.html "Register Now" buttons.
     // The ?event= value must exactly match the <option value="..."> attribute.
     const urlParams = new URLSearchParams(window.location.search);
-    const urlEvent  = urlParams.get('event');
+    const urlEvent = urlParams.get('event');
 
     if (urlEvent && eventField) {
         // Decode the URL parameter (e.g. "Offenso%20Cyber%20Security%20Workshop" → "Offenso Cyber Security Workshop")
@@ -111,17 +160,17 @@ window.addEventListener('DOMContentLoaded', () => {
 // HANDLE EVENT SELECTION
 // ============================================================
 function handleEventChange() {
-    const eventField      = document.getElementById('eventField');
-    const paymentSection  = document.getElementById('paymentSection');
-    const payAmountEl     = document.getElementById('payAmount');
-    const ieeeSection     = document.getElementById('ieeeStatusSection');
+    const eventField = document.getElementById('eventField');
+    const paymentSection = document.getElementById('paymentSection');
+    const payAmountEl = document.getElementById('payAmount');
+    const ieeeSection = document.getElementById('ieeeStatusSection');
     const ieeeMemberIdGrp = document.getElementById('ieeeMemberIdGroup');
 
     if (!eventField || !paymentSection) return;
 
     const selectedOpt = eventField.options[eventField.selectedIndex];
-    const category    = selectedOpt.getAttribute('data-category');
-    const isIEEE      = category === 'IEEE';
+    const category = selectedOpt.getAttribute('data-category');
+    const isIEEE = category === 'IEEE';
 
     // Show/hide IEEE membership section
     if (ieeeSection) {
@@ -158,7 +207,7 @@ function getEffectivePrice(option, isMember) {
     const category = option.getAttribute('data-category');
 
     if (category === 'IEEE') {
-        const memberPrice    = option.getAttribute('data-member-price');
+        const memberPrice = option.getAttribute('data-member-price');
         const nonMemberPrice = option.getAttribute('data-non-member-price');
         return isMember ? memberPrice : nonMemberPrice;
     }
@@ -171,10 +220,10 @@ function getEffectivePrice(option, isMember) {
 // IEEE MEMBER RADIO TOGGLE
 // ============================================================
 function handleIeeeMemberToggle() {
-    const selectedRadio   = document.querySelector('input[name="ieeeMemberType"]:checked');
+    const selectedRadio = document.querySelector('input[name="ieeeMemberType"]:checked');
     const ieeeMemberIdGrp = document.getElementById('ieeeMemberIdGroup');
-    const payAmountEl     = document.getElementById('payAmount');
-    const eventField      = document.getElementById('eventField');
+    const payAmountEl = document.getElementById('payAmount');
+    const eventField = document.getElementById('eventField');
 
     if (!selectedRadio || !eventField) return;
 
@@ -187,7 +236,7 @@ function handleIeeeMemberToggle() {
 
     // Update displayed price
     const selectedOpt = eventField.options[eventField.selectedIndex];
-    const price       = getEffectivePrice(selectedOpt, isMember);
+    const price = getEffectivePrice(selectedOpt, isMember);
 
     if (price && payAmountEl) {
         payAmountEl.textContent = price;
@@ -196,31 +245,44 @@ function handleIeeeMemberToggle() {
 }
 
 // ============================================================
-// UPDATE UPI PAYMENT LINK & QR CODE
+//  UPI PAYMENT LINK & QR CODE
 // ============================================================
 function updatePaymentLink() {
-    const fullNameEl  = document.getElementById('fullName');
-    const eventField  = document.getElementById('eventField');
+    const fullNameEl = document.getElementById('fullName');
+    const eventField = document.getElementById('eventField');
     const payAmountEl = document.getElementById('payAmount');
-    const upiLink     = document.getElementById('upiLink');
-    const qrCode      = document.getElementById('qrCode');
-    const txnNote     = document.getElementById('txnNote');
+    const upiLink = document.getElementById('upiLink');
+    const qrCodeImg = document.getElementById('qrCodeImg');
+    const txnNote = document.getElementById('txnNote');
 
     if (!eventField || !payAmountEl) return;
 
-    const name   = fullNameEl ? (fullNameEl.value.trim() || 'User') : 'User';
-    const event  = eventField.value || 'Event';
+    const selectedOpt = eventField.options[eventField.selectedIndex];
+    const category = selectedOpt ? selectedOpt.getAttribute('data-category') : '';
+    const name = fullNameEl ? (fullNameEl.value.trim() || 'User') : 'User';
+    const event = eventField.value || 'Event';
     const amount = payAmountEl.textContent.replace('₹', '').trim() || '0';
-    const note   = `${event} - ${name}`;
+    const safeEvent = event.replace(/\s+/g, '_');
+    const safeName = name.replace(/\s+/g, '_');
+    const note = `${safeEvent}_${safeName}`;
 
-    const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+
+    const upiId = getUpiForEvent(event, category);
+
+    const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
 
     // Mobile UPI deep link
     if (upiLink) upiLink.href = upiUrl;
 
     // Desktop QR code
-    if (qrCode) {
-        qrCode.src = `https://chart.googleapis.com/chart?cht=qr&chl=${encodeURIComponent(upiUrl)}&chs=220x220&choe=UTF-8`;
+    if (qrCodeImg) {
+        qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiUrl)}`;
+    }
+
+    // Mobile QR code (for scanning with another phone)
+    const mobileQrImg = document.getElementById('mobileQrImg');
+    if (mobileQrImg) {
+        mobileQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiUrl)}`;
     }
 
     // Transaction note preview
@@ -229,24 +291,35 @@ function updatePaymentLink() {
 
 window.updatePaymentLink = updatePaymentLink;
 
-// ============================================================
+// Mobile QR toggle
+function toggleMobileQr() {
+    const wrap = document.getElementById('mobileQrWrap');
+    const btn = document.getElementById('mobileShowQrBtn');
+    if (!wrap || !btn) return;
+
+    const isVisible = wrap.style.display !== 'none';
+    wrap.style.display = isVisible ? 'none' : 'block';
+    btn.innerHTML = isVisible
+        ? 'Show QR Code <i class="fas fa-qrcode"></i>'
+        : 'Hide QR Code <i class="fas fa-eye-slash"></i>';
+}
+window.toggleMobileQr = toggleMobileQr;
+
 // DETECT DEVICE → SHOW QR (desktop) or UPI BUTTON (mobile)
-// ============================================================
 function detectDeviceAndShowPayment() {
-    const mobileDiv  = document.getElementById('mobile-payment');
+    const mobileDiv = document.getElementById('mobile-payment');
     const desktopDiv = document.getElementById('desktop-payment');
     if (!mobileDiv || !desktopDiv) return;
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    mobileDiv.style.display  = isMobile ? 'block' : 'none';
-    desktopDiv.style.display = isMobile ? 'none'  : 'block';
+    mobileDiv.style.display = isMobile ? 'block' : 'none';
+    desktopDiv.style.display = isMobile ? 'none' : 'block';
 }
 
 window.addEventListener('resize', detectDeviceAndShowPayment);
 
-// ============================================================
+
 // FORM SUBMISSION → FIREBASE FIRESTORE
-// ============================================================
 async function handleFormSubmit(e) {
     e.preventDefault();
 
@@ -256,23 +329,23 @@ async function handleFormSubmit(e) {
     }
 
     // ── Gather field values ──────────────────────────────────
-    const fullName      = document.getElementById('fullName').value.trim();
-    const email         = document.getElementById('email').value.trim();
-    const phone         = document.getElementById('phone').value.trim();
-    const college       = document.getElementById('college').value.trim();
-    const department    = document.getElementById('department').value.trim();
-    const year          = document.getElementById('year').value;
-    const eventField    = document.getElementById('eventField').value;
-    const teamDetails   = document.getElementById('teamDetails').value.trim();
+    const fullName = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const college = document.getElementById('college').value.trim();
+    const department = document.getElementById('department').value.trim();
+    const year = document.getElementById('year').value;
+    const eventField = document.getElementById('eventField').value;
+    const teamDetails = document.getElementById('teamDetails').value.trim();
     const transactionId = document.getElementById('transactionId').value.trim();
-    const payAmountEl   = document.getElementById('payAmount');
-    const payAmount     = payAmountEl ? payAmountEl.textContent.trim() : '0';
+    const payAmountEl = document.getElementById('payAmount');
+    const payAmount = payAmountEl ? payAmountEl.textContent.trim() : '0';
 
     // IEEE-specific fields
-    const memberRadio    = document.querySelector('input[name="ieeeMemberType"]:checked');
+    const memberRadio = document.querySelector('input[name="ieeeMemberType"]:checked');
     const ieeeMembership = memberRadio ? memberRadio.value : 'non-member';
     const ieeeMemberIdEl = document.getElementById('ieeeMemberId');
-    const ieeeMemberId   = ieeeMemberIdEl ? ieeeMemberIdEl.value.trim() : '';
+    const ieeeMemberId = ieeeMemberIdEl ? ieeeMemberIdEl.value.trim() : '';
 
     // ── Validation ───────────────────────────────────────────
     if (fullName.length < 3) {
@@ -302,8 +375,8 @@ async function handleFormSubmit(e) {
 
     // Extra: if IEEE member selected, membership ID is required
     const eventSelectEl = document.getElementById('eventField');
-    const selectedOpt   = eventSelectEl.options[eventSelectEl.selectedIndex];
-    const isIEEEEvent   = selectedOpt.getAttribute('data-category') === 'IEEE';
+    const selectedOpt = eventSelectEl.options[eventSelectEl.selectedIndex];
+    const isIEEEEvent = selectedOpt.getAttribute('data-category') === 'IEEE';
 
     if (isIEEEEvent && ieeeMembership === 'member' && ieeeMemberId.length < 3) {
         return showError('Please enter your IEEE Membership ID to avail the member discount.');
@@ -313,22 +386,31 @@ async function handleFormSubmit(e) {
     showLoading();
 
     // ── Prepare Firestore document ───────────────────────────
+    const category = selectedOpt.getAttribute('data-category') || 'OPEN';
+    const upiPaidTo = getUpiForEvent(eventField, category);
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const safeEvent = eventField.replace(/\s+/g, '_');
+    const safeName = fullName.replace(/\s+/g, '_');
+
     const formData = {
-        fullName:        fullName,
-        email:           email,
-        phone:           phone,
-        college:         college,
-        department:      department || 'N/A',
-        year:            year       || 'N/A',
-        event:           eventField,
-        eventCategory:   selectedOpt.getAttribute('data-category') || 'OPEN',
-        teamDetails:     teamDetails || 'N/A',
-        transactionId:   String(transactionId),
+        fullName: fullName,
+        email: email,
+        phone: phone,
+        college: college,
+        department: department || 'N/A',
+        year: year || 'N/A',
+        event: eventField,
+        eventCategory: category,
+        teamDetails: teamDetails || 'N/A',
+        transactionId: String(transactionId),
         registrationFee: `₹${payAmount}`,
-        ieeeMembership:  isIEEEEvent ? ieeeMembership : 'N/A',
-        ieeeMemberId:    isIEEEEvent && ieeeMembership === 'member' ? ieeeMemberId : 'N/A',
-        timestamp:       serverTimestamp(),
-        status:          'pending',
+        upiPaidTo: upiPaidTo,
+        transactionNote: `${safeEvent}_${safeName}`,
+        paymentDevice: isMobile ? 'Mobile' : 'Desktop',
+        ieeeMembership: isIEEEEvent ? ieeeMembership : 'N/A',
+        ieeeMemberId: isIEEEEvent && ieeeMembership === 'member' ? ieeeMemberId : 'N/A',
+        timestamp: serverTimestamp(),
+        status: 'pending',
     };
 
     // ── Write to Firestore ───────────────────────────────────
@@ -424,7 +506,7 @@ if (canvas) {
     const ctx = canvas.getContext('2d');
 
     function resizeCanvas() {
-        canvas.width  = window.innerWidth;
+        canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
     resizeCanvas();
@@ -432,25 +514,25 @@ if (canvas) {
     class Particle {
         constructor() { this.reset(); }
         reset() {
-            this.x       = Math.random() * canvas.width;
-            this.y       = Math.random() * canvas.height;
-            this.size    = Math.random() * 2;
-            this.speedX  = (Math.random() - 0.5) * 0.5;
-            this.speedY  = (Math.random() - 0.5) * 0.5;
-            this.color   = Math.random() > 0.8 ? '#C5A059' : '#ffffff';
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2;
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.speedY = (Math.random() - 0.5) * 0.5;
+            this.color = Math.random() > 0.8 ? '#C5A059' : '#ffffff';
             this.opacity = Math.random() * 0.5 + 0.1;
         }
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
-            if (this.x > canvas.width)  this.x = 0;
-            else if (this.x < 0)         this.x = canvas.width;
+            if (this.x > canvas.width) this.x = 0;
+            else if (this.x < 0) this.x = canvas.width;
             if (this.y > canvas.height) this.y = 0;
-            else if (this.y < 0)         this.y = canvas.height;
+            else if (this.y < 0) this.y = canvas.height;
         }
         draw() {
             ctx.globalAlpha = this.opacity;
-            ctx.fillStyle   = this.color;
+            ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fill();

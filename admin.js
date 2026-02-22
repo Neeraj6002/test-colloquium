@@ -17,10 +17,10 @@ export async function initializeDashboard() {
         console.log('Dashboard already initialized');
         return;
     }
-    
+
     console.log('Initializing dashboard...');
     isInitialized = true;
-    
+
     await loadRegistrations();
     setupEventListeners();
     createBackgroundAnimation();
@@ -39,7 +39,7 @@ function setupEventListeners() {
     // Modal close on outside click
     const modal = document.getElementById('detailsModal');
     if (modal) {
-        modal.addEventListener('click', function(e) {
+        modal.addEventListener('click', function (e) {
             if (e.target === modal) {
                 closeDetailsModal();
             }
@@ -47,7 +47,7 @@ function setupEventListeners() {
     }
 
     // Modal close on Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             closeDetailsModal();
         }
@@ -63,14 +63,14 @@ function setupEventListeners() {
 async function loadRegistrations() {
     try {
         console.log('Loading registrations from Firestore...');
-        
+
         const registrationsRef = collection(db, 'registrations');
         const querySnapshot = await getDocs(registrationsRef);
-        
+
         allRegistrations = [];
-        
+
         console.log(`Found ${querySnapshot.size} registrations`);
-        
+
         if (querySnapshot.empty) {
             console.warn('No registrations found in Firestore collection');
             showNoData('No registrations found in database');
@@ -78,7 +78,7 @@ async function loadRegistrations() {
             updateEventCounts();
             return;
         }
-        
+
         querySnapshot.forEach((docSnapshot) => {
             const data = docSnapshot.data();
             allRegistrations.push({
@@ -100,10 +100,10 @@ async function loadRegistrations() {
         updateStats();
         updateEventCounts();
         displayRegistrations(allRegistrations);
-        
+
     } catch (error) {
         console.error('Error loading registrations:', error);
-        
+
         let errorMessage = 'Error loading data.';
         if (error.code === 'permission-denied') {
             errorMessage = 'Permission denied. Please check Firestore security rules.';
@@ -112,7 +112,7 @@ async function loadRegistrations() {
         } else {
             errorMessage = `Error: ${error.message}`;
         }
-        
+
         showNoData(errorMessage);
         updateStats();
         updateEventCounts();
@@ -165,7 +165,7 @@ function updateEventCounts() {
     Object.entries(eventMappings).forEach(([eventName, eventKey]) => {
         const count = allRegistrations.filter(r => r.event === eventName).length;
         const countElement = document.getElementById(`count-${eventKey}`);
-        
+
         if (countElement) {
             countElement.textContent = count;
         }
@@ -177,7 +177,7 @@ function updateEventCounts() {
 // ============================================================
 export function filterByEvent(eventName) {
     currentFilter = eventName;
-    
+
     // Update active button
     document.querySelectorAll('.event-filter-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -204,12 +204,12 @@ export function filterByEvent(eventName) {
 // ============================================================
 function displayRegistrations(registrations) {
     const tableBody = document.getElementById('tableBody');
-    
+
     if (!tableBody) {
         console.error('Table body element not found!');
         return;
     }
-    
+
     if (registrations.length === 0) {
         showNoData('No registrations found for this filter');
         return;
@@ -220,12 +220,12 @@ function displayRegistrations(registrations) {
     registrations.forEach((reg) => {
         const row = document.createElement('tr');
         row.setAttribute('data-id', reg.id);
-        
+
         const status = reg.status || 'pending';
-        const statusClass = status === 'approved' ? 'status-approved' : 
-                           status === 'rejected' ? 'status-rejected' : 'status-pending';
-        
-        const date = reg.timestamp ? 
+        const statusClass = status === 'approved' ? 'status-approved' :
+            status === 'rejected' ? 'status-rejected' : 'status-pending';
+
+        const date = reg.timestamp ?
             new Date(reg.timestamp.toMillis()).toLocaleDateString('en-IN', {
                 year: 'numeric',
                 month: '2-digit',
@@ -236,7 +236,7 @@ function displayRegistrations(registrations) {
         // Expected format: "Department - Semester" or just "Department"
         let department = 'N/A';
         let semester = 'N/A';
-        
+
         if (reg.department) {
             const parts = reg.department.split('-').map(p => p.trim());
             if (parts.length >= 2) {
@@ -259,9 +259,12 @@ function displayRegistrations(registrations) {
            
             <td>${year}</td>
             <td>${reg.event || 'N/A'}</td>
+              <td>${reg.teamDetails || 'N/A'}</td>
             <td>${reg.ieeeMembership}</td>
-            <td>${reg.teamDetails || 'N/A'}</td>
+          <td>${reg.ieeeMemberId}</td>
             <td>${reg.registrationFee || 'N/A'}</td>
+            <td style="font-size: 0.75rem; word-break: break-all;">${reg.upiPaidTo || 'N/A'}</td>
+            <td>${reg.paymentDevice || 'N/A'}</td>
             <td>${reg.transactionId || 'N/A'}</td>
             <td>${date}</td>
             <td>
@@ -296,10 +299,10 @@ function displayRegistrations(registrations) {
 function showNoData(message) {
     const tableBody = document.getElementById('tableBody');
     if (!tableBody) return;
-    
+
     tableBody.innerHTML = `
         <tr>
-            <td colspan="14" class="no-data">
+            <td colspan="16" class="no-data">
                 <i class="fas fa-inbox"></i>
                 <p>${message}</p>
             </td>
@@ -319,13 +322,13 @@ export function viewDetails(registrationId) {
 
     currentRegistrationId = registrationId;
 
-    const date = registration.timestamp ? 
+    const date = registration.timestamp ?
         new Date(registration.timestamp.toMillis()).toLocaleString('en-IN') : 'N/A';
 
     // Parse department and semester for modal display
     let department = 'N/A';
     let semester = 'N/A';
-    
+
     if (registration.department) {
         const parts = registration.department.split('-').map(p => p.trim());
         if (parts.length >= 2) {
@@ -381,6 +384,19 @@ export function viewDetails(registrationId) {
             <label>Registration Fee</label>
             <p>${registration.registrationFee || 'N/A'}</p>
         </div>
+        
+        <div class="detail-item">
+            <label>UPI Paid To</label>
+            <p style="font-size: 0.85rem; word-break: break-all;">${registration.upiPaidTo || 'N/A'}</p>
+        </div>
+        <div class="detail-item">
+            <label>Transaction Note</label>
+            <p>${registration.transactionNote || 'N/A'}</p>
+        </div>
+        <div class="detail-item">
+            <label>Payment Device</label>
+            <p>${registration.paymentDevice || 'N/A'}</p>
+        </div>
         <div class="detail-item">
             <label>Transaction ID</label>
             <p>${registration.transactionId || 'N/A'}</p>
@@ -391,8 +407,8 @@ export function viewDetails(registrationId) {
         </div>
         <div class="detail-item">
             <label>Status</label>
-            <p style="color: ${registration.status === 'approved' ? 'var(--green)' : 
-                              registration.status === 'rejected' ? 'var(--red)' : '#ffc107'}">
+            <p style="color: ${registration.status === 'approved' ? 'var(--green)' :
+            registration.status === 'rejected' ? 'var(--red)' : '#ffc107'}">
                 ${(registration.status || 'pending').toUpperCase()}
             </p>
         </div>
@@ -401,7 +417,7 @@ export function viewDetails(registrationId) {
     // Update modal buttons
     const approveBtn = document.getElementById('modalApproveBtn');
     const rejectBtn = document.getElementById('modalRejectBtn');
-    
+
     if (registration.status === 'approved') {
         approveBtn.style.display = 'none';
     } else {
@@ -432,7 +448,7 @@ export function closeDetailsModal() {
 export async function updateStatus(registrationId, newStatus) {
     try {
         console.log(`Updating status for ${registrationId} to ${newStatus}`);
-        
+
         const docRef = doc(db, 'registrations', registrationId);
         await updateDoc(docRef, {
             status: newStatus
@@ -483,7 +499,7 @@ export function rejectFromModal() {
 // ============================================================
 function searchTable() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
-    
+
     const filtered = allRegistrations.filter(reg => {
         // If a specific event filter is active, maintain it
         if (currentFilter !== 'all' && reg.event !== currentFilter) {
@@ -524,17 +540,17 @@ export function exportToCSV() {
     }
 
     // CSV Headers - updated to include year
-    const headers = ['Name', 'Email', 'Phone', 'College', 'Department', 'Semester', 'Year', 'Event', 'Team Details', 'Fee', 'Transaction ID', 'Date', 'Status'];
-    
+    const headers = ['Name', 'Email', 'Phone', 'College', 'Department', 'Semester', 'Year', 'Event', 'Team Details', 'Fee', 'UPI Paid To', 'Txn Note', 'Payment Device', 'Transaction ID', 'Date', 'Status'];
+
     // CSV Rows
     const rows = dataToExport.map(reg => {
-        const date = reg.timestamp ? 
+        const date = reg.timestamp ?
             new Date(reg.timestamp.toMillis()).toLocaleDateString('en-IN') : 'N/A';
-        
+
         // Parse department and semester
         let department = 'N/A';
         let semester = 'N/A';
-        
+
         if (reg.department) {
             const parts = reg.department.split('-').map(p => p.trim());
             if (parts.length >= 2) {
@@ -547,18 +563,23 @@ export function exportToCSV() {
 
         // Get year from Firestore
         const year = reg.year || 'N/A';
-        
+
         return [
             reg.fullName || 'N/A',
             reg.email || 'N/A',
             reg.phone || 'N/A',
             reg.college || 'N/A',
             department,
-            semester,
+            
             year,
             reg.event || 'N/A',
             reg.teamDetails || 'N/A',
+            reg.ieeeMembership,
+            reg.ieeeMemberId,
             reg.registrationFee || 'N/A',
+            reg.upiPaidTo || 'N/A',
+            reg.transactionNote || 'N/A',
+            reg.paymentDevice || 'N/A',
             reg.transactionId || 'N/A',
             date,
             reg.status || 'pending'
@@ -586,9 +607,9 @@ export async function refreshData() {
     if (refreshBtn) {
         refreshBtn.classList.add('fa-spin');
     }
-    
+
     await loadRegistrations();
-    
+
     setTimeout(() => {
         if (refreshBtn) {
             refreshBtn.classList.remove('fa-spin');
@@ -609,7 +630,7 @@ function createBackgroundAnimation() {
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    
+
     class Particle {
         constructor() {
             this.x = Math.random() * canvas.width;
@@ -620,18 +641,18 @@ function createBackgroundAnimation() {
             this.color = Math.random() > 0.8 ? '#C5A059' : '#ffffff';
             this.opacity = Math.random() * 0.5 + 0.1;
         }
-        
+
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
-            
+
             if (this.x > canvas.width) this.x = 0;
             else if (this.x < 0) this.x = canvas.width;
-            
+
             if (this.y > canvas.height) this.y = 0;
             else if (this.y < 0) this.y = canvas.height;
         }
-        
+
         draw() {
             ctx.fillStyle = this.color;
             ctx.globalAlpha = this.opacity;
@@ -640,7 +661,7 @@ function createBackgroundAnimation() {
             ctx.fill();
         }
     }
-    
+
     function initParticles() {
         particlesArray = [];
         let numberOfParticles = (canvas.width * canvas.height) / 9000;
@@ -648,7 +669,7 @@ function createBackgroundAnimation() {
             particlesArray.push(new Particle());
         }
     }
-    
+
     function animateParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         particlesArray.forEach(particle => {
@@ -657,7 +678,7 @@ function createBackgroundAnimation() {
         });
         animationFrameId = requestAnimationFrame(animateParticles);
     }
-    
+
     initParticles();
     animateParticles();
 }

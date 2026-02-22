@@ -275,27 +275,25 @@ function initParticles() {
     }
   });
 
-  // FIX: Reduced from 80 → 50 particles. O(n²) connection check = 50*49/2 = 1225 vs 3160 pairs
   const particles = [];
-  const count = 50;
+  const count = 75;
 
   for (let i = 0; i < count; i++) {
     particles.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      baseRadius: Math.random() * 2 + 0.5,
-      radius: Math.random() * 2 + 0.5,
-      speedX: (Math.random() - 0.5) * 0.4,
-      speedY: (Math.random() - 0.5) * 0.4,
-      opacity: Math.random() * 0.4 + 0.1,
+      baseRadius: Math.random() * 2.5 + 0.5,
+      radius: Math.random() * 2.5 + 0.5,
+      speedX: (Math.random() - 0.5) * 0.5,
+      speedY: (Math.random() - 0.5) * 0.5,
+      opacity: Math.random() * 0.45 + 0.15,
       pulse: Math.random() * Math.PI * 2,
       pulseSpeed: Math.random() * 0.02 + 0.01,
       golden: Math.random() > 0.3
     });
   }
 
-  // FIX: Pre-baked connection distance squared to avoid sqrt in the hot loop
-  const CONNECTION_DIST = 140;
+  const CONNECTION_DIST = 160;
   const CONNECTION_DIST_SQ = CONNECTION_DIST * CONNECTION_DIST;
 
   function animate() {
@@ -470,9 +468,28 @@ function initPaymentSystem() {
 
   if (!eventSelect || !paymentSection) return;
 
+  // ── UPI mapping (same as reg.js) ──
+  const UPI_EVENT_MAP = {
+    'Program Debugging': 'suryadathur2005thoolika@okicici',
+    'Intra MGI MUN Conference': 'suryadathur2005thoolika@okicici',
+    'Circuit Designing': 'arya210605@oksbi',
+  };
+  const UPI_CAT_MAP = {
+    'IEEE': 'ssvignesh2005-1@okicici',
+    'IEDC': '7558009711-2@ibl',
+  };
+  const UPI_FALLBACK = 'thahir05ae-2@okaxis';
+
+  function getUpi(eventValue, category) {
+    if (UPI_EVENT_MAP[eventValue]) return UPI_EVENT_MAP[eventValue];
+    if (category && UPI_CAT_MAP[category]) return UPI_CAT_MAP[category];
+    return UPI_FALLBACK;
+  }
+
   function updatePayment() {
     const selectedOption = eventSelect.options[eventSelect.selectedIndex];
     const price = selectedOption.getAttribute('data-price');
+    const category = selectedOption.getAttribute('data-category') || '';
     const name = nameInput.value.trim() || 'Participant';
     const eventName = selectedOption.value;
 
@@ -487,7 +504,7 @@ function initPaymentSystem() {
       const note = `${safeEventName}_${safeName}`;
       txnNoteSpan.textContent = note;
 
-      const vpa = 'thahir05ae-2@okaxis';
+      const vpa = getUpi(eventName, category);
       const payee = 'Colloquium 2026';
       const upiUrl = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(payee)}&am=${price}&tn=${encodeURIComponent(note)}&cu=INR`;
 

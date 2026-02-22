@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Colloquium 2026</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <link rel="stylesheet" href="admin.css">
-    
+
     <style>
         /* ============================================================ */
         /* LOGIN PAGE STYLES */
@@ -231,11 +234,9 @@
             .login-container {
                 padding: 40px 30px;
             }
-
             .login-logo {
                 font-size: 2rem;
             }
-
             .lock-icon {
                 width: 60px;
                 height: 60px;
@@ -244,6 +245,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="noise-overlay"></div>
     <canvas id="bgCanvas"></canvas>
@@ -316,29 +318,21 @@
         <!-- Stats Cards -->
         <section class="stats-section">
             <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-users"></i>
-                </div>
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
                 <div class="stat-content">
                     <h2 id="totalRegistrations">0</h2>
                     <p>Total Registrations</p>
                 </div>
             </div>
-
             <div class="stat-card approved">
-                <div class="stat-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
+                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
                 <div class="stat-content">
                     <h2 id="approvedCount">0</h2>
                     <p>Approved</p>
                 </div>
             </div>
-
             <div class="stat-card pending">
-                <div class="stat-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
+                <div class="stat-icon"><i class="fas fa-clock"></i></div>
                 <div class="stat-content">
                     <h2 id="pendingCount">0</h2>
                     <p>Pending</p>
@@ -350,12 +344,96 @@
         <section class="events-filter-section">
             <h2 class="section-title">Filter by <span class="gold-accent">Event</span></h2>
             <div class="events-grid" id="eventsGrid">
+
+                <!-- All -->
                 <button class="event-filter-btn active" data-event="all" onclick="filterByEvent('all')">
                     <i class="fas fa-th"></i>
                     <span>All Events</span>
                     <span class="event-count" id="count-all">0</span>
                 </button>
-                
+
+                <!-- ── IEEE Events ── -->
+                <button class="event-filter-btn" data-event="Valorant Tournament (Collab with Heaven Esports)" onclick="filterByEvent('Valorant Tournament (Collab with Heaven Esports)')">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Valorant Tournament</span>
+                    <span class="event-count" id="count-valorant">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Startup Pitching Competition" onclick="filterByEvent('Startup Pitching Competition')">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Startup Pitching</span>
+                    <span class="event-count" id="count-startup">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Web Design Workshop" onclick="filterByEvent('Web Design Workshop')">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>Web Design Workshop</span>
+                    <span class="event-count" id="count-webdesign">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Figma UI/UX Session by Friends of Figma" onclick="filterByEvent('Figma UI/UX Session by Friends of Figma')">
+                    <i class="fas fa-vector-square"></i>
+                    <span>Figma UI/UX Session</span>
+                    <span class="event-count" id="count-figma">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Agentic AI Talk Session" onclick="filterByEvent('Agentic AI Talk Session')">
+                    <i class="fas fa-brain"></i>
+                    <span>Agentic AI Talk</span>
+                    <span class="event-count" id="count-agenticai">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="PCB Design &amp; Building Workshop" onclick="filterByEvent('PCB Design & Building Workshop')">
+                    <i class="fas fa-microchip"></i>
+                    <span>PCB Design Workshop</span>
+                    <span class="event-count" id="count-pcb">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Offenso Cyber Security Workshop" onclick="filterByEvent('Offenso Cyber Security Workshop')">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Cyber Security</span>
+                    <span class="event-count" id="count-cyber">0</span>
+                </button>
+
+                <!-- ── ISTE Events ── -->
+                <button class="event-filter-btn" data-event="Intra MGI MUN Conference" onclick="filterByEvent('Intra MGI MUN Conference')">
+                    <i class="fas fa-globe"></i>
+                    <span>MUN Conference</span>
+                    <span class="event-count" id="count-mun">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Program Debugging" onclick="filterByEvent('Program Debugging')">
+                    <i class="fas fa-bug"></i>
+                    <span>Program Debugging</span>
+                    <span class="event-count" id="count-debug">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Circuit Designing" onclick="filterByEvent('Circuit Designing')">
+                    <i class="fas fa-wave-square"></i>
+                    <span>Circuit Designing</span>
+                    <span class="event-count" id="count-circuit">0</span>
+                </button>
+
+                <!-- ── IEDC Events ── -->
+                <button class="event-filter-btn" data-event="Problem Hunt" onclick="filterByEvent('Problem Hunt')">
+                    <i class="fas fa-search"></i>
+                    <span>Problem Hunt</span>
+                    <span class="event-count" id="count-problemhunt">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="UI/UX Workshop" onclick="filterByEvent('UI/UX Workshop')">
+                    <i class="fas fa-pen-ruler"></i>
+                    <span>UI/UX Workshop</span>
+                    <span class="event-count" id="count-uiux">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Idea To Startup Sprint" onclick="filterByEvent('Idea To Startup Sprint')">
+                    <i class="fas fa-rocket"></i>
+                    <span>Idea To Startup</span>
+                    <span class="event-count" id="count-ideastartup">0</span>
+                </button>
+
+                <!-- ── Open Events ── -->
                 <button class="event-filter-btn" data-event="Robowar" onclick="filterByEvent('Robowar')">
                     <i class="fas fa-robot"></i>
                     <span>Robowar</span>
@@ -363,57 +441,15 @@
                 </button>
 
                 <button class="event-filter-btn" data-event="ACME" onclick="filterByEvent('ACME')">
-                    <i class="fas fa-code"></i>
+                    <i class="fas fa-scroll"></i>
                     <span>ACME</span>
                     <span class="event-count" id="count-acme">0</span>
                 </button>
 
                 <button class="event-filter-btn" data-event="Bridge Modelling" onclick="filterByEvent('Bridge Modelling')">
-                    <i class="fas fa-bridge"></i>
+                    <i class="fas fa-archway"></i>
                     <span>Bridge Modelling</span>
                     <span class="event-count" id="count-bridge">0</span>
-                </button>
-
-                <button class="event-filter-btn" data-event="Automotive Biz Conclave" onclick="filterByEvent('Automotive Biz Conclave')">
-                    <i class="fas fa-car"></i>
-                    <span>Automotive Biz</span>
-                    <span class="event-count" id="count-automotive">0</span>
-                </button>
-
-                <button class="event-filter-btn" data-event="Reverse Marketing" onclick="filterByEvent('Reverse Marketing')">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>Reverse Marketing</span>
-                    <span class="event-count" id="count-marketing">0</span>
-                </button>
-
-                <button class="event-filter-btn" data-event="MUN (ISTE)" onclick="filterByEvent('MUN (ISTE)')">
-                    <i class="fas fa-globe"></i>
-                    <span>MUN</span>
-                    <span class="event-count" id="count-mun">0</span>
-                </button>
-
-                <button class="event-filter-btn" data-event="Debate" onclick="filterByEvent('Debate')">
-                    <i class="fas fa-comments"></i>
-                    <span>Debate</span>
-                    <span class="event-count" id="count-debate">0</span>
-                </button>
-
-                <button class="event-filter-btn" data-event="Prompt Writing" onclick="filterByEvent('Prompt Writing')">
-                    <i class="fas fa-brain"></i>
-                    <span>AI Prompt</span>
-                    <span class="event-count" id="count-prompt">0</span>
-                </button>
-
-                <button class="event-filter-btn" data-event="Program Debugging" onclick="filterByEvent('Program Debugging')">
-                    <i class="fas fa-bug"></i>
-                    <span>Debug Hunt</span>
-                    <span class="event-count" id="count-debug">0</span>
-                </button>
-
-                <button class="event-filter-btn" data-event="Circuit Designing" onclick="filterByEvent('Circuit Designing')">
-                    <i class="fas fa-microchip"></i>
-                    <span>Circuit Design</span>
-                    <span class="event-count" id="count-circuit">0</span>
                 </button>
 
                 <button class="event-filter-btn" data-event="AutoCAD Competition" onclick="filterByEvent('AutoCAD Competition')">
@@ -422,11 +458,30 @@
                     <span class="event-count" id="count-autocad">0</span>
                 </button>
 
-                <button class="event-filter-btn" data-event="AI Workshop" onclick="filterByEvent('AI Workshop')">
-                    <i class="fas fa-laptop-code"></i>
-                    <span>AI Workshop</span>
-                    <span class="event-count" id="count-workshop">0</span>
+                <button class="event-filter-btn" data-event="Debate" onclick="filterByEvent('Debate')">
+                    <i class="fas fa-comments"></i>
+                    <span>Debate</span>
+                    <span class="event-count" id="count-debate">0</span>
                 </button>
+
+                <button class="event-filter-btn" data-event="Prompt Writing Competition" onclick="filterByEvent('Prompt Writing Competition')">
+                    <i class="fas fa-keyboard"></i>
+                    <span>Prompt Writing</span>
+                    <span class="event-count" id="count-prompt">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Automotive Business Conclave" onclick="filterByEvent('Automotive Business Conclave')">
+                    <i class="fas fa-car"></i>
+                    <span>Automotive Conclave</span>
+                    <span class="event-count" id="count-automotive">0</span>
+                </button>
+
+                <button class="event-filter-btn" data-event="Reverse Marketing (Pitching)" onclick="filterByEvent('Reverse Marketing (Pitching)')">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Reverse Marketing</span>
+                    <span class="event-count" id="count-reversemarketing">0</span>
+                </button>
+
             </div>
         </section>
 
@@ -444,7 +499,9 @@
             <!-- Search Bar -->
             <div class="search-container">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search by name, email, phone, college, department, or event..." onkeyup="searchTable()">
+                <input type="text" id="searchInput"
+                    placeholder="Search by name, email, phone, college, department, or event..."
+                    onkeyup="searchTable()">
             </div>
 
             <!-- Table -->
@@ -457,11 +514,14 @@
                             <th>PHONE</th>
                             <th>COLLEGE</th>
                             <th>DEPT</th>
-                          
                             <th>YEAR</th>
                             <th>EVENT</th>
                             <th>TEAM DETAILS</th>
+                            <th>MEMBERSHIP</th>
+                            <th>MEMBERSHIP ID</th>
                             <th>PRICE</th>
+                            <th>PAID TO (UPI)</th>
+                            <th>DEVICE</th>
                             <th>TXN ID</th>
                             <th>DATE</th>
                             <th>STATUS</th>
@@ -470,7 +530,7 @@
                     </thead>
                     <tbody id="tableBody">
                         <tr>
-                            <td colspan="14" class="no-data">
+                            <td colspan="17" class="no-data">
                                 <i class="fas fa-spinner fa-spin"></i>
                                 <p>Loading registrations...</p>
                             </td>
@@ -485,7 +545,7 @@
             <div class="modal-content">
                 <span class="close-btn" onclick="closeDetailsModal()">&times;</span>
                 <h2>Registration Details</h2>
-                
+
                 <div class="detail-grid" id="detailsContent">
                     <!-- Content will be populated dynamically -->
                 </div>
@@ -511,45 +571,31 @@
         const loginPage = document.getElementById('loginPage');
         const dashboardPage = document.getElementById('dashboardPage');
 
-        // Show error message
         function showError(message) {
             const errorMessage = document.getElementById('errorMessage');
             const errorText = document.getElementById('errorText');
             errorText.textContent = message;
             errorMessage.classList.add('show');
-            
-            setTimeout(() => {
-                errorMessage.classList.remove('show');
-            }, 5000);
+            setTimeout(() => errorMessage.classList.remove('show'), 5000);
         }
 
-        // Show login page
         function showLoginPage() {
             loginPage.classList.add('active');
             dashboardPage.classList.remove('active');
         }
 
-        // Show dashboard page
-     // Show dashboard page
-function showDashboardPage(user) {
-    loginPage.classList.remove('active');
-    dashboardPage.classList.add('active');
-    document.getElementById('adminEmail').textContent = user.email;
-    
-    // Load admin dashboard functionality
-    import('./admin.js')
-        .then(module => {
-            // Manually trigger data loading since DOMContentLoaded already fired
-            if (module.initializeDashboard) {
-                module.initializeDashboard();
-            }
-        })
-        .catch(error => {
-            console.error('Error loading admin.js:', error);
-        });
-}
+        function showDashboardPage(user) {
+            loginPage.classList.remove('active');
+            dashboardPage.classList.add('active');
+            document.getElementById('adminEmail').textContent = user.email;
 
-        // Google Sign In Handler
+            import('./admin.js')
+                .then(module => {
+                    if (module.initializeDashboard) module.initializeDashboard();
+                })
+                .catch(error => console.error('Error loading admin.js:', error));
+        }
+
         document.getElementById('googleSignInBtn').addEventListener('click', async () => {
             const btn = document.getElementById('googleSignInBtn');
             btn.classList.add('loading');
@@ -557,11 +603,7 @@ function showDashboardPage(user) {
 
             try {
                 const result = await signInWithGoogle();
-                
-                if (result.success) {
-                    // Will be handled by auth observer
-                    console.log('Sign in successful');
-                } else {
+                if (!result.success) {
                     showError(result.error || 'Sign in failed. Please try again.');
                     btn.classList.remove('loading');
                     btn.disabled = false;
@@ -574,27 +616,20 @@ function showDashboardPage(user) {
             }
         });
 
-        // Global logout handler
-        window.handleLogout = async function() {
+        window.handleLogout = async function () {
             if (confirm('Are you sure you want to logout?')) {
                 const result = await signOutUser();
-                if (result.success) {
-                    showLoginPage();
-                } else {
-                    alert('Logout failed. Please try again.');
-                }
+                if (result.success) showLoginPage();
+                else alert('Logout failed. Please try again.');
             }
         };
 
-        // Initialize auth observer
         initAuthObserver(
             (user) => {
-                // User is authorized - show dashboard
                 console.log('Authorized user:', user.email);
                 showDashboardPage(user);
             },
             () => {
-                // User is not authorized - show login
                 console.log('Not authorized, showing login page');
                 showLoginPage();
             }
@@ -608,9 +643,9 @@ function showDashboardPage(user) {
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            
+
             let particlesArray = [];
-            
+
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
@@ -621,18 +656,14 @@ function showDashboardPage(user) {
                     this.color = Math.random() > 0.8 ? '#C5A059' : '#ffffff';
                     this.opacity = Math.random() * 0.5 + 0.1;
                 }
-                
                 update() {
                     this.x += this.speedX;
                     this.y += this.speedY;
-                    
                     if (this.x > canvas.width) this.x = 0;
                     else if (this.x < 0) this.x = canvas.width;
-                    
                     if (this.y > canvas.height) this.y = 0;
                     else if (this.y < 0) this.y = canvas.height;
                 }
-                
                 draw() {
                     ctx.fillStyle = this.color;
                     ctx.globalAlpha = this.opacity;
@@ -641,36 +672,31 @@ function showDashboardPage(user) {
                     ctx.fill();
                 }
             }
-            
+
             function initParticles() {
                 particlesArray = [];
-                let numberOfParticles = (canvas.width * canvas.height) / 9000;
-                for (let i = 0; i < numberOfParticles; i++) {
-                    particlesArray.push(new Particle());
-                }
+                let count = (canvas.width * canvas.height) / 9000;
+                for (let i = 0; i < count; i++) particlesArray.push(new Particle());
             }
-            
+
             function animateParticles() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particlesArray.forEach(particle => {
-                    particle.update();
-                    particle.draw();
-                });
+                particlesArray.forEach(p => { p.update(); p.draw(); });
                 requestAnimationFrame(animateParticles);
             }
-            
+
             window.addEventListener('resize', () => {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 initParticles();
             });
-            
+
             initParticles();
             animateParticles();
         }
 
-        // Initialize background animation
         createBackgroundAnimation();
     </script>
 </body>
+
 </html>

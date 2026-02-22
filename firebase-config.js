@@ -50,7 +50,8 @@ const ALLOWED_ADMINS = [
     'vigneshnarrayan@ieee.org',
     'thahir05ae@gmail.com',
     'adithyanath.s10b@gmail.com',
-    'neerajj6002@gmail.com'
+    'neerajj6002@gmail.com',
+    'ananthapadmanabhanprakash@ieee.org'
 ];
 
 // ============================================================
